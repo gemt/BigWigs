@@ -195,7 +195,6 @@ local timer = {
 	p1GlareCasting = 5,   -- time it takes from casting dark glare until the spell starts
 	p1GlareDuration = 30, -- duration of dark glare
 	
-	p2Offset = 0,        -- delay for all timers to restart after the Eye dies
 	p2Tentacle = 30,      -- tentacle timers for phase 2
 	p2ETentacle = 60,     -- Eye tentacle timers for phase 2
 	p2GiantClaw = 60,     -- Giant Claw timer for phase 2
