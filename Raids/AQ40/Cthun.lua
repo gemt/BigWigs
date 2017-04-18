@@ -195,13 +195,13 @@ local timer = {
 	p1GlareCasting = 5,   -- time it takes from casting dark glare until the spell starts
 	p1GlareDuration = 30, -- duration of dark glare
 	
-	p2Offset = 10,        -- delay for all timers to restart after the Eye dies
+	p2Offset = 0,        -- delay for all timers to restart after the Eye dies
 	p2Tentacle = 30,      -- tentacle timers for phase 2
-	p2ETentacle = 40,     -- Eye tentacle timers for phase 2
-	p2GiantClaw = 40,     -- Giant Claw timer for phase 2
-	p2FirstGiantClaw = 25, -- first giant claw after eye of c'thun dies
-	p2FirstGiantEye = 56, -- first giant eye after eye of c'thun dies
-	p2FirstEyeTentacles = 45, -- first eye tentacles after eye of c'thun dies
+	p2ETentacle = 60,     -- Eye tentacle timers for phase 2
+	p2GiantClaw = 60,     -- Giant Claw timer for phase 2
+	p2FirstGiantClaw = 12, -- first giant claw after eye of c'thun dies
+	p2FirstGiantEye = 42, -- first giant eye after eye of c'thun dies
+	p2FirstEyeTentacles = 42, -- first eye tentacles after eye of c'thun dies
 	p2FirstGiantClawAfterWeaken = 10,
 	p2FirstGiantEyeAfterWeaken = 40,
 	
