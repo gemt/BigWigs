@@ -203,6 +203,10 @@ function module:OnEngage()
 	self.phase = "emerged"
 	self:ScheduleRepeatingEvent("bwourosubmergecheck", self.SubmergeCheck, 1, self)
 	
+	if self.db.profile.sweep then
+		self:Bar("Initial Sand Blast/Sweep", 30, icon.sweep)
+	end
+	
 	if self.db.profile.emerge then
 		self:Message(L["engage_message"], "Attention")
 		self:PossibleSubmerge()
