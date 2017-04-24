@@ -2,7 +2,6 @@
 ----------------------------------
 --      Module Declaration      --
 ----------------------------------
-
 local module, L = BigWigs:ModuleDeclaration("The Twin Emperors", "Ahn'Qiraj")
 
 ------------------------------
@@ -18,7 +17,12 @@ local twinstarted = nil
 ----------------------------
 --      Localization      --
 ----------------------------
-
+function _print( msg )
+	if not DEFAULT_CHAT_FRAME then return end
+	DEFAULT_CHAT_FRAME:AddMessage ( msg )
+	ChatFrame3:AddMessage ( msg )
+	ChatFrame4:AddMessage ( msg )
+end
 L:RegisterTranslations("enUS", function() return {
 	cmd = "Twins",
 
@@ -42,7 +46,8 @@ L:RegisterTranslations("enUS", function() return {
     blizzard_name = "Blizzard Warning",
     blizzard_desc = "Shows an Icon if you are standing in a Blizzard",
 
-	porttrigger = "casts Twin Teleport.",
+	-- porttrigger = "casts Twin Teleport.",
+	porttrigger = "gains Twin Teleport.",
 	portwarn = "Teleport!",
 	portdelaywarn = "Teleport in 5 seconds!",
 	portdelaywarn10 = "Teleport in 10 seconds!",
@@ -162,7 +167,7 @@ local icon = {
 	blizzard = "Spell_Frost_IceStorm",
 }
 local syncName = {
-	teleport = "TwinsTeleport43",
+	teleport = "TwinsTeleport_elysium",
 	teleport_old = "TwinsTeleport",
 }
 
@@ -194,7 +199,7 @@ function module:OnEnable()
 	self:RegisterEvent("CHAT_MSG_SPELL_CREATURE_VS_CREATURE_BUFF")
 	--self:RegisterEvent("CHAT_MSG_COMBAT_HOSTILE_DEATH", "CheckForBossDeath") -- addition
 	
-	self:ThrottleSync(28, syncName.teleport)
+	--self:ThrottleSync(28, syncName.teleport)
 end
 
 -- called after module is enabled and after each wipe
@@ -257,16 +262,18 @@ function module:CHAT_MSG_SPELL_AURA_GONE_SELF(msg)
 end
 
 function module:CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE(msg)
-	if (string.find(msg, L["porttrigger"])) then
-		self:Sync(syncName.teleport_old)
-        self:Sync(syncName.teleport)
-        self:DebugMessage("real port trigger")
-	end
 end
 
 function module:CHAT_MSG_SPELL_PERIODIC_CREATURE_BUFFS(msg)
+	_print(msg)
+	_print("^in buffs")
 	if (string.find(msg, L["explodebugtrigger"]) and self.db.profile.bug) then
 		self:Message(L["explodebugwarn"], "Personal", true)
+	end
+	if (string.find(msg, L["porttrigger"])) then
+		self:Sync(syncName.teleport_old)
+		self:Sync(syncName.teleport)
+		self:DebugMessage("real port trigger")
 	end
 end
 
@@ -290,8 +297,12 @@ end
 ------------------------------
 
 function module:BigWigs_RecvSync(sync, rest, nick)
+	_print(sync);
+	_print(rest);
+	_print(nick);
 	if sync == syncName.teleport then
-        self:Teleport()
+		_print("sync was right")
+		self:Teleport()
 	end
 end
 
@@ -300,11 +311,12 @@ end
 ------------------------------
 
 function module:Teleport()
+	_print("teleport sync thing")
 	if self.db.profile.teleport then
 		self:Bar(L["bartext"], timer.teleport, icon.teleport)
-        
-        self:DelayedSync(timer.teleport, syncName.teleport_old)
-        self:DelayedSync(timer.teleport, syncName.teleport)
+		_print("initializing timers")
+        -- self:DelayedSync(timer.teleport, syncName.teleport_old)
+        --self:DelayedSync(timer.teleport, syncName.teleport)
         self:KTM_Reset()
         
         self:DelayedSound(timer.teleport - 10, "Ten")
