@@ -17,12 +17,7 @@ local twinstarted = nil
 ----------------------------
 --      Localization      --
 ----------------------------
-function _print( msg )
-	if not DEFAULT_CHAT_FRAME then return end
-	DEFAULT_CHAT_FRAME:AddMessage ( msg )
-	ChatFrame3:AddMessage ( msg )
-	ChatFrame4:AddMessage ( msg )
-end
+
 L:RegisterTranslations("enUS", function() return {
 	cmd = "Twins",
 
@@ -265,8 +260,6 @@ function module:CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE(msg)
 end
 
 function module:CHAT_MSG_SPELL_PERIODIC_CREATURE_BUFFS(msg)
-	_print(msg)
-	_print("^in buffs")
 	if (string.find(msg, L["explodebugtrigger"]) and self.db.profile.bug) then
 		self:Message(L["explodebugwarn"], "Personal", true)
 	end
@@ -297,11 +290,7 @@ end
 ------------------------------
 
 function module:BigWigs_RecvSync(sync, rest, nick)
-	_print(sync);
-	_print(rest);
-	_print(nick);
 	if sync == syncName.teleport then
-		_print("sync was right")
 		self:Teleport()
 	end
 end
@@ -311,10 +300,8 @@ end
 ------------------------------
 
 function module:Teleport()
-	_print("teleport sync thing")
 	if self.db.profile.teleport then
 		self:Bar(L["bartext"], timer.teleport, icon.teleport)
-		_print("initializing timers")
         -- self:DelayedSync(timer.teleport, syncName.teleport_old)
         --self:DelayedSync(timer.teleport, syncName.teleport)
         self:KTM_Reset()

@@ -9,12 +9,7 @@ local module, L = BigWigs:ModuleDeclaration("Ouro", "Ahn'Qiraj")
 ----------------------------
 --      Localization      --
 ----------------------------
-function _print( msg )
-	if not DEFAULT_CHAT_FRAME then return end
-	DEFAULT_CHAT_FRAME:AddMessage ( msg )
-	ChatFrame3:AddMessage ( msg )
-	ChatFrame4:AddMessage ( msg )
-end
+
 L:RegisterTranslations("enUS", function() return {
 	cmd = "Ouro",
 
@@ -281,14 +276,12 @@ end
 
 function module:CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE( msg )
 	if string.find(msg, L["sweeptrigger"]) then
-		_print("sweep dmg")
 		self:Sync(syncName.sweep)
 	elseif string.find(msg, L["sandblasttrigger"]) then
 		self:Sync(syncName.sandblast)
 	elseif string.find(msg, L["submergetrigger"]) then
 		self:Sync(syncName.submerge)
 	elseif string.find(msg, L["emergetrigger"]) and self.phase ~= "berserk" then
-		_print("emerged")
 		self:Sync(syncName.emerge)
 	end
 end
@@ -351,7 +344,6 @@ end
 function module:Emerge()
     if self.phase ~= "berserk" then
         self.phase = "emerged"
-		_print("emerged module")
 		self:CancelScheduledEvent("bwourosubmergecheck")
         self:ScheduleEvent("bwourosubmergecheck", self.DoSubmergeCheck, 10, self)
         --self:ScheduleRepeatingEvent("bwourosubmergecheck", self.SubmergeCheck, 1, self)
